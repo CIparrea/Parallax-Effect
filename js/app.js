@@ -1,78 +1,86 @@
- const parallax_el = document.querySelectorAll(".parallax");
+const parallax_el = document.querySelectorAll(".parallax");
 
- let xValue = 0;
- let yValue = 0;
+let xValue = 0;
+let yValue = 0;
 
- let rotateDegree = 0;
- function update(cursorPosition) {
-    parallax_el.forEach((el) => {
-        let speedx = el.dataset.speedx;
-        let speedy = el.dataset.speedy;
-        let speedz = el.dataset.speedz;
+let rotateDegree = 0;
+function update(cursorPosition) {
+  parallax_el.forEach((el) => {
+    let speedx = el.dataset.speedx;
+    let speedy = el.dataset.speedy;
+    let speedz = el.dataset.speedz;
 
-        let isInleft = parseFloat(getComputedStyle(el).left) < window.innerWidth / 2 ? 1 : -1;
-        let zValue = (cursorPosition - parseFloat(getComputedStyle(el).left)) * isInleft * 0.1;
+    let isInleft =
+      parseFloat(getComputedStyle(el).left) < window.innerWidth / 2 ? 1 : -1;
+    let zValue =
+      (cursorPosition - parseFloat(getComputedStyle(el).left)) * isInleft * 0.1;
 
-        el.style.transform = `rotateY(${rotateDegree}deg) translateX(calc(-50% + ${-xValue * speedx}px)) translateY(calc(-50% + ${-yValue * speedy}px)) perspective(2300px) translateZ(${zValue * speedz}px)`;
-    });
- }
+    el.style.transform = `rotateY(${rotateDegree}deg) translateX(calc(-50% + ${
+      -xValue * speedx
+    }px)) translateY(calc(-50% + ${
+      -yValue * speedy
+    }px)) perspective(2300px) translateZ(${zValue * speedz}px)`;
+  });
+}
 
- update(0)
+update(0);
 
- window.addEventListener("mousemove", (e) =>{
-    if(timeline.isActive())return;
-    
-    xValue = e.clientX - window.innerWidth / 2;
-    yValue = e.clientY - window.innerHeight / 2;
+window.addEventListener("mousemove", (e) => {
+  if (timeline.isActive()) return;
 
-    rotateDegree = (xValue / (window.innerWidth/2)) * 5 
+  xValue = e.clientX - window.innerWidth / 2;
+  yValue = e.clientY - window.innerHeight / 2;
 
-    update(e.clientX);
- });
+  rotateDegree = (xValue / (window.innerWidth / 2)) * 5;
 
- let timeline = gsap.timeline();
+  update(e.clientX);
+});
 
- Array.from(parallax_el)
- .filter((el) => !el.classList.contains("text"))
- .forEach((el) => {
-    let top = `${(el.offsetHeight / 2) + + (el.dataset.distance)}px`
-    console.log(top)
+let timeline = gsap.timeline();
+
+Array.from(parallax_el)
+  .filter((el) => !el.classList.contains("text"))
+  .forEach((el) => {
+    let top = `${el.offsetHeight / 2 + +el.dataset.distance}px`;
+    console.log(top);
     timeline.from(
-        el,
-        {
+      el,
+      {
         y: top,
         duration: 3.5,
         ease: "power3.out",
-     },
-     "1"
-     );
- });
+      },
+      "1"
+    );
+  });
 
-
- timeline.from(
+timeline
+  .from(
     ".text h1",
     {
-    y: (window.innerHeight) - (document.querySelector(".text h1").getBoundingClientRect().top) + 200,
-    duration: 3.5,
-    ease: "power3.out",
- },
- "2.5"
- ).from(
-    ".text h2",{
-        y: -150,
-        opacity: 0,
-        duration: 1.5,
+      y:
+        window.innerHeight -
+        document.querySelector(".text h1").getBoundingClientRect().top +
+        200,
+      duration: 3.5,
+      ease: "power3.out",
+    },
+    "2.5"
+  )
+  .from(
+    ".text h2",
+    {
+      y: -150,
+      opacity: 0,
+      duration: 1.5,
     },
     "3.5"
- )
- .from(".hide",{
-    opacity:0,
-    duration: 1.5,
- },"4");
- 
-
-
-
- 
-
-
+  )
+  .from(
+    ".hide",
+    {
+      opacity: 0,
+      duration: 1.5,
+    },
+    "4"
+  );
