@@ -85,9 +85,10 @@ main {
 .background-img {
   /* 20:43 */
   position: absolute;
-  width: 1600px;
-  top: calc(50% - 0px);
-  left: calc(50% + 10px);
+  width: 100vw;
+  height: 100vh;
+  /* top: calc(50% - 0px);
+  left: calc(50% + 10px); */
   z-index: 1;
 }
 
